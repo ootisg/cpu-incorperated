@@ -17,7 +17,7 @@ public class TextRenderer extends GameAPI {
 	public TextRenderer (JSONObject obj) {
 		
 		//Set text contents to the given JSON
-		//contents = obj.getJSONArray ("textContents");
+		contents = obj.getJSONArray ("textContents");
 		
 	}
 	
@@ -27,7 +27,7 @@ public class TextRenderer extends GameAPI {
 	
 	public int renderText (int x, int y, Rectangle bounds) {
 		
-		return renderString (x, y, bounds, null, "123456789012345678901234567890123456789 123456789012345678901234567890123456789 A");
+		return renderString (x, y, bounds, (JSONObject)contents.get (0), ((JSONObject)contents.get (0)).getString ("text"));
 		
 	}
 	
@@ -40,7 +40,12 @@ public class TextRenderer extends GameAPI {
 		Graphics g = getWindow ().getBufferGraphics ();
 		
 		//Set the color appropriately
-		g.setColor (Color.WHITE);
+		String usedColor = context.getString ("color");
+		if (usedColor != null) {
+			g.setColor (new Color (Integer.parseInt (usedColor, 16)));
+		} else {
+			g.setColor (Color.WHITE); //Default color
+		}
 		
 		//Draw the text
 		FontMetrics fm = g.getFontMetrics ();

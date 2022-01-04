@@ -3,6 +3,8 @@ package ui;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
+import json.JSONException;
+import json.JSONUtil;
 import main.GameObject;
 import resources.Sprite;
 
@@ -31,7 +33,12 @@ public class Textbox extends GameObject {
 		setEmote ("face_neutral");
 		
 		//Initialize the text renderer
-		textRenderer = new TextRenderer (null);
+		try {
+			textRenderer = new TextRenderer (JSONUtil.loadJSONFile ("test.json"));
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 	
