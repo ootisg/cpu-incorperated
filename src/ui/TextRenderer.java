@@ -25,13 +25,20 @@ public class TextRenderer extends GameAPI {
 		
 	}
 	
-	public int renderText (int x, int y, Rectangle bounds) {
+	public StringRenderInfo renderText (int x, int y, Rectangle bounds) {
 		
-		return renderString (x, y, bounds, (JSONObject)contents.get (0), ((JSONObject)contents.get (0)).getString ("text"));
+		int wx = x, wy = y;
+		StringRenderInfo ri = null;
+		for (int i = 0; i < contents.getContents ().size (); i++) {
+			ri = renderString (wx, wy, bounds, (JSONObject)contents.get (i), ((JSONObject)contents.get (i)).getString ("text"));
+			wx = ri.endX;
+			wy = ri.endY;
+		}
+		return ri;
 		
 	}
 	
-	private int renderString (int x, int y, Rectangle bounds, JSONObject context, String str) {
+	private StringRenderInfo renderString (int x, int y, Rectangle bounds, JSONObject context, String str) {
 		
 		//# of padding pixels
 		int PADDING = 2;
@@ -55,20 +62,38 @@ public class TextRenderer extends GameAPI {
 		int offs = 0; //Line offset
 		int wy = y + fm.getAscent (); //Y to draw line
 		int wx = x; //X to draw line (wraps to start of bounds, so first line is indented to x)
+		int strEndX = wx, strEndY = wy;
 		while (wy < bounds.y + bounds.height && offs + len < buffer.length) {
 			while (fm.charsWidth (buffer, offs, len) < maxLen && offs + len < buffer.length) {
 				len++; //Add chars until out of data or the line length is exceeded
 			}
 			if (len == 0) {
-				return -1; //Prevent infinite loop edge case
+				return null; //Prevent infinite loop edge case
 			}
-			g.drawChars (buffer, offs, len, x, wy); //Draws the line
+			strEndX = wx + fm.charsWidth (buffer, offs, len);
+			strEndY = wy - fm.getAscent (); //Save ending coords for string
+			g.drawChars (buffer, offs, len, wx, wy); //Draws the line
 			wy += fm.getAscent () + PADDING; //Move wy down for the next line
 			wx = bounds.x; //Reset wx to the left of bounds
 			offs += len; //Advance the line offset in the buffer
 			len = 0; //Reset the string length
+			maxLen = bounds.x + bounds.width - wx; //Update maxLen
 		}
-		return offs; //Return the index of the last character drawn
+		return new StringRenderInfo (strEndX, strEndY, offs); //Return the index of the last character drawn
+		
+	}
+	
+	public class StringRenderInfo {
+		
+		public int endX;
+		public int endY;
+		public int endCharIndex;
+		
+		public StringRenderInfo (int endX, int endY, int endCharIndex) {
+			this.endX = endX;
+			this.endY = endY;
+			this.endCharIndex = endCharIndex;
+		}
 		
 	}
 

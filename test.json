@@ -1,5 +1,7 @@
 {
 	"textContents":[
-		{"text":"1234567890 1234567890 ABCDEFGHIJ ABCDEFGHIJ", "color":"00FF00"}
+		{"text":"1234567890 1234567890 ", "color":"00FF00"},
+		{"text":"ABCDEFGHIJ ABCDEFGHIJ", "color":"FF0000"},
+		{"text":"1234567890 1234567890 ", "color":"0000FF"}
 	]
 }

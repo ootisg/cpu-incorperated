@@ -63,7 +63,7 @@ public class Textbox extends GameObject {
 		emoteImg.draw ((int)getX () + EMOTE_OFFSET, (int)getY () + EMOTE_OFFSET);
 		
 		//Draw the text
-		Rectangle bounds = new Rectangle (textX, textY, 200, 40);
+		Rectangle bounds = new Rectangle (textX, textY, 200, 80);
 		textRenderer.renderText (textX, textY, bounds);
 		
 	}
