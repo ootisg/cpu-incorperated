@@ -69,7 +69,6 @@ public class TextButton extends Button {
 		
 		//Get window's graphics and configure the font
 		Graphics g = MainLoop.getWindow ().getBufferGraphics ();
-		g.setColor (Color.RED);
 		g.fillRect (getBoundingRectangle ().x, getBoundingRectangle ().y, getBoundingRectangle ().width, getBoundingRectangle ().height);
 		if (font != null) {
 			g.setFont (font);

@@ -10,6 +10,7 @@ import ui.GUI;
 import ui.ImageButton;
 import ui.TextButton;
 import ui.Textbox;
+import ui.XPBar;
 
 public class GameCode extends GameAPI {
 	
@@ -29,6 +30,7 @@ public class GameCode extends GameAPI {
 		
 		//Make menu
 		BottomTabMenu btm = new BottomTabMenu (gui, "tabMenu");
+		XPBar xpbar = new XPBar (gui, "xpBar");
 		
 	}
 	
